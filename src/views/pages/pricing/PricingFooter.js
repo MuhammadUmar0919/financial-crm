@@ -10,7 +10,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import MuiAccordion from '@mui/material/Accordion'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   '&:before': { display: 'none' },

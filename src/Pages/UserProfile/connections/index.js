@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent'
 import { Link } from 'react-router-dom'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Custom Components Imports
 import CustomChip from '@core/components/mui/chip'
@@ -21,8 +21,8 @@ const Connections = ({ data }) => {
   return (
     <Grid container spacing={6}>
       {data &&
-        Array.isArray(data) &&
-        data.map((item, index) => {
+        Array.isArray(data.connections) &&
+        data.connections.map((item, index) => {
           return (
             <Grid key={index} item xs={12} sm={6} md={4}>
               <Card sx={{ position: 'relative' }}>

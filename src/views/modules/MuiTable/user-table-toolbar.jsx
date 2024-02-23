@@ -15,15 +15,19 @@ import {
   TextField,
 } from '@mui/material';
 // component
-import Iconify from 'Components/Iconify/Iconify';
-import { SearchInput } from '@core/components/custom-input';
-import { regionsData, servicesData } from 'Data';
+import Iconify from '@/@core/components/iconify';
+import { SearchInput } from '@/@core/components/custom-input';
+import { regionsData, servicesData } from '@/Data';
 import React from 'react';
 // ** Third Party Imports
 import format from 'date-fns/format';
 import DatePicker from 'react-datepicker';
 // ** Styled Components
-import DatePickerWrapper from '@core/styles/libs/react-datepicker';
+import DatePickerWrapper from '@/@core/styles/libs/react-datepicker';
+import { selectSearchedItems } from '@/Redux/crud/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import useDebounce from '@/Hooks/useDebounce';
+import { crud } from '@/Redux/crud/actions';
 
 const StyledRoot = styled(Toolbar)(({ theme }) => ({
   // height: 96,
@@ -50,24 +54,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 /* eslint-disable */
 const CustomDateInput = React.forwardRef((props, ref) => {
-  const startDate =
-    props.start !== null ? format(props.start, 'MM/dd/yyyy') : '';
-  const endDate =
-    props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null;
+  const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : '';
+  const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null;
   const value = `${startDate}${endDate !== null ? endDate : ''}`;
-  props.start === null && props.dates.length && props.setDates
-    ? props.setDates([])
-    : null;
+  props.start === null && props.dates.length && props.setDates ? props.setDates([]) : null;
   const updatedProps = { ...props };
   delete updatedProps.setDates;
   return (
-    <TextField
-      fullWidth
-      inputRef={ref}
-      {...updatedProps}
-      label={props.label || ''}
-      value={value}
-    />
+    <TextField fullWidth inputRef={ref} {...updatedProps} label={props.label || ''} value={value} />
   );
 });
 
@@ -76,8 +70,8 @@ const CustomDateInput = React.forwardRef((props, ref) => {
 export default function UserListToolbar({ toolbarArguments }) {
   const {
     dates,
-    title,
     found,
+    entity,
     setValue,
     setDates,
     filterName,
@@ -85,27 +79,62 @@ export default function UserListToolbar({ toolbarArguments }) {
     statusLabel,
     numSelected,
     endDateRange,
+    searchConfig,
     onFilterName,
-    badgeContent,
     serviceValue,
     handleService,
     startDateRange,
     handleOnChangeRange,
   } = toolbarArguments;
+  const dispatch = useDispatch();
+  const { result, isLoading, isSuccess } = useSelector(selectSearchedItems);
+  const { displayLabels, searchFields, outputValue = '_id' } = searchConfig;
+  const [selectOptions, setOptions] = React.useState([]);
+  const [currentValue, setCurrentValue] = React.useState(undefined);
 
-  const searchCheck = filterName && found;
-  const titleLowered = title.toLowerCase();
-  const companyTerm = titleLowered === 'clients';
-  const invoiceTerm = titleLowered === 'invoice';
-  const addressTerm = titleLowered === 'employees' || titleLowered === 'admins';
-  const tabCheck =
-    badgeContent() > 0 && statusLabel !== 'all' && badgeContent();
-  const shouldShowResults =
-    tabCheck ||
-    filterName ||
-    serviceValue ||
-    dates.length > 0 ||
-    (searchCheck && found > 0);
+  const isSearching = React.useRef(false);
+
+  const [searching, setSearching] = React.useState(false);
+
+  const [valToSearch, setValToSearch] = React.useState('');
+  const [debouncedValue, setDebouncedValue] = React.useState('');
+  const companyTerm = entity === 'clients';
+  const invoiceTerm = entity === 'invoice';
+  const addressTerm = entity === 'employees' || entity === 'admins';
+  const tabCheck = statusLabel.toLowerCase() !== 'all' && (found || true);
+  const shouldShowResults = tabCheck || filterName || serviceValue || dates.length > 0;
+  const [, cancel] = useDebounce(
+    () => {
+      setDebouncedValue(valToSearch);
+    },
+    500,
+    [valToSearch]
+  );
+
+  React.useEffect(() => {
+    if (debouncedValue != '') {
+      const options = {
+        q: debouncedValue,
+        fields: searchFields,
+      };
+      dispatch(crud.search({ entity, options }));
+    }
+    return () => {
+      cancel();
+    };
+  }, [debouncedValue]);
+
+  React.useEffect(() => {
+    if (isSearching.current) {
+      if (isSuccess) {
+        setOptions(result);
+      } else {
+        setSearching(false);
+        setCurrentValue(undefined);
+        setOptions([]);
+      }
+    }
+  }, [isSuccess, result]);
 
   return (
     <DatePickerWrapper>
@@ -121,7 +150,7 @@ export default function UserListToolbar({ toolbarArguments }) {
             {numSelected} selected
           </Typography>
         ) : (
-          <Grid container spacing={6} justifyContent='space-between'>
+          <Grid container spacing={6} justifyContent="space-between">
             {invoiceTerm && (
               <>
                 <Grid item xs={12} md={4} lg={2.5}>
@@ -244,28 +273,21 @@ export default function UserListToolbar({ toolbarArguments }) {
               {found}
             </Typography>
 
-            <Typography
-              gutterBottom
-              variant="subtitle1"
-              sx={{ color: 'text.secondary' }}
-            >
+            <Typography gutterBottom variant="subtitle1" sx={{ color: 'text.secondary' }}>
               results found
             </Typography>
           </Stack>
           <Stack direction="row" spacing={3} alignItems="center">
             {tabCheck && (
               <StyledBox>
-                <Typography
-                  variant="subtitle2"
-                  sx={{ color: 'text.secondary' }}
-                >
+                <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
                   Status:
                 </Typography>
                 <Chip
                   size="small"
                   color="secondary"
                   label={statusLabel}
-                  onClick={() => handleClear('tab')}
+                  onDelete={() => handleClear('tab')}
                 />
               </StyledBox>
             )}

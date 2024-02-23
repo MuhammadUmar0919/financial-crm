@@ -29,7 +29,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Custom Components Imports
 import StepperCustomDot from './StepperCustomDot'

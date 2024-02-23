@@ -20,7 +20,7 @@ import DialogActions from '@mui/material/DialogActions'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Custom Components Imports
 import CustomChip from '@core/components/mui/chip'

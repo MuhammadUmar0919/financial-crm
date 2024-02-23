@@ -9,7 +9,7 @@ import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
 
 // ** Iconify Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // Styled Box component
 const StyledBox = styled(Box)(({ theme }) => ({

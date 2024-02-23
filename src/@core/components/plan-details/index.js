@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Util Import
 import { hexToRGBA } from '@core/utils/hex-to-rgba'

@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent'
 import { Radar, Tooltip, PolarGrid, RadarChart, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const data = [
   {

@@ -17,7 +17,7 @@ import MuiTabList from '@mui/lab/TabList'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Custom Components Import
 import CustomAvatar from '@core/components/mui/avatar'

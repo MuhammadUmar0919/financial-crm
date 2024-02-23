@@ -19,7 +19,7 @@ import DialogContent from '@mui/material/DialogContent'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'

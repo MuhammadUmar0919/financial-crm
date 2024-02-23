@@ -1,7 +1,7 @@
 // pages import
-import NoNetwork from "Pages/ErrorPages/NoNetwork";
+import NoNetwork from "@/Pages/ErrorPages/NoNetwork";
 // layout import
-import BlankLayout from "@core/layouts/BlankLayout";
+import BlankLayout from "@/@core/layouts/BlankLayout";
 // react route dom
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

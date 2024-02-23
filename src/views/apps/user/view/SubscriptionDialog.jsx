@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 
 // ** Iconify Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 const SubscriptionDialog = props => {
   // ** Props

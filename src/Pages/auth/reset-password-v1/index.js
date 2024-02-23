@@ -16,7 +16,7 @@ import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icon Imports
-import Icon from 'Components/Iconify'
+import Icon from '@core/components/Iconify'
 
 // ** Configs
 import themeConfig from 'configs/themeConfig'

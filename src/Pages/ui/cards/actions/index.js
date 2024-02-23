@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // Component Imports
 import CardActionAll from 'views/ui/cards/actions/CardActionAll'

@@ -14,7 +14,7 @@ import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Component Import
 import ReactApexcharts from 'src/@core/components/react-apexcharts'

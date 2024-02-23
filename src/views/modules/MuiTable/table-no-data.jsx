@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 
 import TableRow from '@mui/material/TableRow';
+import NotFoundData from '@/Components/NotFound';
 import TableCell from '@mui/material/TableCell';
 
 // ----------------------------------------------------------------------
-import NotFoundData from 'Components/NotFound';
+
 
 export default function TableNoData({ query }) {
   return (

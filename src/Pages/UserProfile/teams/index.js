@@ -10,7 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** React Imports
 import { Link } from 'react-router-dom'
@@ -23,8 +23,8 @@ const Teams = ({ data }) => {
   return (
     <Grid container spacing={6}>
       {data &&
-        Array.isArray(data) &&
-        data.map((item, index) => {
+        Array.isArray(data.teams) &&
+        data.teams.map((item, index) => {
           return (
             <Grid key={index} item xs={12} md={6} lg={4}>
               <Card>

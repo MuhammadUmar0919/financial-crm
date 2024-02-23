@@ -15,7 +15,7 @@ import CardActions from '@mui/material/CardActions'
 import Grid from '@mui/material/Grid'
 
 // ** Iconify Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // Styled Grid component
 const StyledGrid = styled(Grid)(({ theme }) => ({

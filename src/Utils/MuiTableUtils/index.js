@@ -1,4 +1,4 @@
-import { getDateRange } from '@core/utils/get-daterange';
+import { getDateRange } from '@/@core/utils/get-daterange';
 
 export const visuallyHidden = {
   border: 0,
@@ -34,20 +34,11 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter(filterArgument) {
-  const {
-    dates,
-    value,
-    search,
-    authData,
-    tableData,
-    userProfile,
-    clientsData,
-    serviceValue,
-    getComparator,
-  } = filterArgument;
+  const { dates, value, search, dataSource, getUserData, serviceValue, getComparator } =
+    filterArgument;
 
   // Stabilize tableData to prevent re-ordering issues during filtering
-  const stabilizedThis = tableData?.map((el, index) => [el, index]);
+  const stabilizedThis = dataSource?.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = getComparator(a[0], b[0]);
     if (order !== 0) return order;
@@ -58,10 +49,9 @@ export function applyFilter(filterArgument) {
     const queryLowered = search.toLowerCase();
     const service = serviceValue.toLowerCase();
 
-    return tableData.filter((item) => {
-      const client = userProfile(item.billTo, clientsData);
-      const simple = userProfile(item.createdBy, authData);
-
+    return dataSource.filter((item) => {
+      const client = getUserData(item.billTo);
+      const simple = getUserData(item.createdBy);
       const isInDateRange = () => {
         if (!dates.length) return true;
 
@@ -116,16 +106,16 @@ export function applyFilter(filterArgument) {
 
       // const tengmisan = (includesQuery(item?.invoiceStatus) === (queryLowered && item?.status.toLowerCase()))
 
-      return queryMatches && (isInDateRange() && queryMatches && src) && (queryMatches || src);
+      return queryMatches && isInDateRange() && queryMatches && src && (queryMatches || src);
     });
   }
 
   // Filter based on status
   if (value) {
     if (value === 'all') {
-      return tableData;
+      return dataSource;
     } else {
-      return tableData.filter((item) => item.status === value);
+      return dataSource.filter((item) => item.status === value);
     }
   }
 

@@ -18,7 +18,7 @@ import CardHeader from '@mui/material/CardHeader'
 import TableContainer from '@mui/material/TableContainer'
 
 // ** Iconify Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Custom Components Imports
 import OptionsMenu from '@core/components/option-menu'

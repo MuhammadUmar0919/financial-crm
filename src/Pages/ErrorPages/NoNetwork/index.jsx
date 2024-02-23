@@ -6,14 +6,14 @@ import Box from "@mui/material/Box"
 import { LoadingButton } from "@mui/lab"
 
 // ** Demo Imports
-import FooterIllustrations from "views/pages/misc/FooterIllustrations"
+import FooterIllustrations from "@/views/pages/misc/FooterIllustrations"
 import React from "react"
 import toast from "react-hot-toast"
-import Iconify from "Components/Iconify"
+import Iconify from "@/@core/components/iconify"
 import { Link } from "@mui/material"
-import { useOnlineStatus } from "Hooks/useOnlineStatus"
-import shape from "Assets/template/images/pages/misc404.png"
-import illustration from "Assets/template/images/pages/Ills404.png"
+import { useOnlineStatus } from "@/Hooks/useOnlineStatus"
+import shape from "@/Assets/template/images/pages/misc404.png"
+import illustration from "@/Assets/template/images/pages/Ills404.png"
 
 // ** Styled Components
 const BoxWrapper = styled(Box)(({ theme }) => ({

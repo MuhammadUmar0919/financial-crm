@@ -13,7 +13,7 @@ import CardContent from '@mui/material/CardContent'
 import TableContainer from '@mui/material/TableContainer'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Custom Components Imports
 import CustomChip from '@core/components/mui/chip'
@@ -22,7 +22,7 @@ import CustomChip from '@core/components/mui/chip'
 import CreateApiKey from 'Pages/AccountSettings/security/CreateApiKey'
 import ChangePasswordCard from 'Pages/AccountSettings/security/ChangePasswordCard'
 import TwoFactorAuthentication from 'Pages/AccountSettings/security/TwoFactorAuthentication'
-import { CopiedBtn } from 'Components/CopiedBtn'
+import { CopiedBtn } from '@core/components/copied-btn'
 
 const apiKeyList = [
   {

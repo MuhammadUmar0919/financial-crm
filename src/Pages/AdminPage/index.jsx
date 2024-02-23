@@ -1,104 +1,22 @@
 // react imports
 import React from 'react';
-import uuid from 'react-uuid';
-import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 // module
-import CrudModule from 'Modules/CrudModule';
+import CrudModule from '@/Modules/CrudModule';
 // data import
-import { statusAdmins, IconData } from 'Data';
-// hooks import
-import useToken from 'Hooks/UseToken';
+import { IconData } from '@/Data';
 // utils import
-import { ToastPromise } from '@core/components/Downloads/ToastPromise';
-import { simpleSchema } from 'Libs/validations';
-import { TimeSleep } from 'Utils/timeSleep';
-import StaffForm from 'Modules/FormFields/StaffForm';
+import { simpleSchema } from '@/Libs/validations';
+import StaffForm from '@/Modules/FormFields/StaffForm';
+import { useData } from '@/Hooks/useData';
 
 const AdminPage = () => {
-  const { token } = useToken();
-  // const dispatch = useDispatch()
-  const navigate = useNavigate();
-  const [pageData, setPageData] = React.useState([]);
-
-  const { adminData, loading } = useSelector((state) => state.adminReducer);
-
-  const getResponse = () => {
-    TimeSleep();
-    try {
-      setPageData(adminData);
-    } catch (error) {
-      if (error.response?.status === 500) navigate('/server-error');
-      toast.error('There was a problem loading the admins');
-    }
-  };
+  const { statusData, getStatusData } = useData();
 
   React.useEffect(() => {
-    getResponse();
-  }, [adminData]);
-
-  const onCreate = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'ADMIN_START' });
-
-      const value = {
-        ...data,
-        id: uuid(),
-        createdBy: token.id,
-        createdAt: new Date(),
-      };
-
-      try {
-        await ToastPromise('Admin', 'onCreate', true);
-        dispatch({ type: 'ADMIN_SUCCESS', data: value });
-        dispatch({ type: 'AUTH_CREATE', data: value });
-      } catch (error) {
-        dispatch({ type: 'ADMIN_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Admin', 'onCreate', false);
-      } finally {
-        getResponse();
-      }
-    };
-  };
-
-  const onEdit = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'ADMIN_UPDATING_START' });
-      try {
-        await ToastPromise('Admin', 'onEdit', true);
-        dispatch({ type: 'ADMIN_UPDATING_SUCCESS', data: data });
-        dispatch({ type: 'AUTH_UPDATING_SUCCESS', data: data });
-        getResponse();
-      } catch (error) {
-        dispatch({ type: 'ADMIN_UPDATING_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Admin', 'onEdit', false);
-      } finally {
-      }
-    };
-  };
-
-  const onDelete = (id) => {
-    return async (dispatch) => {
-      dispatch({ type: 'ADMIN_START' });
-      try {
-        await ToastPromise('Admin', 'onDelete', true);
-        dispatch({ type: 'ADMIN_DELETE', id: id });
-        dispatch({ type: 'AUTH_DELETE', id: id });
-      } catch (error) {
-        dispatch({ type: 'ADMIN_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Admin', 'onDelete', false);
-      } finally {
-        getResponse();
-      }
-    };
-  };
+    getStatusData('Admin')
+  }, []);
 
   const initialState = {
-    id: '',
     age: '',
     rank: '',
     email: '',
@@ -133,29 +51,52 @@ const AdminPage = () => {
     address: true,
     editBtn: true,
     rankBtn: true,
-    viewBtn: true,
+    viewBtn: false,
     fullName: true,
     createBtn: true,
     createdAt: true,
-    statusBtn: true,
+    statusBtn: false,
     deleteBtn: true,
     phoneNumber: true,
     assignmentBtn: true,
   };
+  
+  const entity = 'admins';
+  const endpoint = 'admins';
 
+  const searchConfig = {
+    displayLabels: ['name', 'surname'],
+    searchFields: 'email,name,surname',
+    outputValue: '_id',
+  };
+
+  const PANEL_TITLE = 'Admin Panel';
+  const dataTableTitle = 'Admin Lists';
+  const entityDisplayLabels = ['email'];
+
+  const ADD_NEW_ENTITY = 'Add new admin';
+  const DATATABLE_TITLE = 'Admins List';
+  const ENTITY_NAME = 'admin';
+  const CREATE_ENTITY = 'Create admin';
+  const UPDATE_ENTITY = 'Update admin';
+  
   const config = {
-    onEdit,
+    entity,
     columns,
-    loading,
-    onCreate,
-    onDelete,
+    endpoint,
     tableCell,
+    statusData,
+    PANEL_TITLE,
+    ENTITY_NAME,
+    searchConfig,
     initialState,
+    CREATE_ENTITY,
+    UPDATE_ENTITY,
+    dataTableTitle,
+    ADD_NEW_ENTITY,
+    DATATABLE_TITLE,
     crudForm: StaffForm,
-    tableData: pageData,
-    tableTitle: 'Admins',
     schema: simpleSchema,
-    statusData: statusAdmins,
   };
 
   return <CrudModule config={config} />;

@@ -14,7 +14,7 @@ import { Line } from 'react-chartjs-2'
 import DatePicker from 'react-datepicker'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const ChartjsAreaChart = props => {
   // ** Props

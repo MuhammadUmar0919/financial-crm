@@ -3,7 +3,7 @@ import * as XLSX from "xlsx";
 // react library import
 import toast from "react-hot-toast";
 // utils import
-import { TimeSleep } from "Utils/timeSleep";
+import { TimeSleep } from "@/Utils/timeSleep";
 
 export const DownloadEXCEL = async (data, title) => {
   try {

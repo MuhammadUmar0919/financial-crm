@@ -21,7 +21,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Third Party Imports
 import format from 'date-fns/format'

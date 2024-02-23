@@ -3,13 +3,17 @@ const Card = (theme, skin) => {
     MuiCard: {
       styleOverrides: {
         root: {
-          ...(skin === 'bordered' && { border: `1px solid ${theme.palette.divider}` }),
+          ...(skin === 'bordered' && { border: `1px solid ${theme.palette.divider}`}),
+          boxShadow: 'none', 
           '& .card-more-options': {
             marginTop: theme.spacing(-1),
-            marginRight: theme.spacing(-3)
+            marginRight: theme.spacing(-3),
           },
           '& .MuiTableContainer-root, & .MuiDataGrid-root, & .MuiDataGrid-columnHeaders': {
-            borderRadius: 0
+            borderRadius: 0,
+          },
+          '& .MuiPaper-root, & .MuiCard-root': {
+            boxShadow: 'unset !important',
           }
         }
       },

@@ -1,4 +1,5 @@
 export const statusIcons = (status) => {
+    const lowerStatuse = status?.toLowerCase()
     // Success status icons
     const successIcons = {
         paid: 'mdi:check',
@@ -43,12 +44,12 @@ export const statusIcons = (status) => {
     };
 
     // Check and return the corresponding icon for the status
-    if (successIcons.hasOwnProperty(status)) return successIcons[status];
-    if (warningIcons.hasOwnProperty(status)) return warningIcons[status];
-    if (errorIcons.hasOwnProperty(status)) return errorIcons[status];
-    if (infoIcons.hasOwnProperty(status)) return infoIcons[status];
-    if (secondaryIcons.hasOwnProperty(status)) return secondaryIcons[status];
-    if (defaultIcons.hasOwnProperty(status)) return defaultIcons[status];
+    if (successIcons.hasOwnProperty(lowerStatuse)) return successIcons[lowerStatuse];
+    if (warningIcons.hasOwnProperty(lowerStatuse)) return warningIcons[lowerStatuse];
+    if (errorIcons.hasOwnProperty(lowerStatuse)) return errorIcons[lowerStatuse];
+    if (infoIcons.hasOwnProperty(lowerStatuse)) return infoIcons[lowerStatuse];
+    if (secondaryIcons.hasOwnProperty(lowerStatuse)) return secondaryIcons[lowerStatuse];
+    if (defaultIcons.hasOwnProperty(lowerStatuse)) return defaultIcons[lowerStatuse];
 
     // If the status is not found, return a default icon
     return 'mdi:help-circle';

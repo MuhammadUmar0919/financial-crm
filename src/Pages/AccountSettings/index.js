@@ -14,7 +14,7 @@ import MuiTabList from '@mui/lab/TabList'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Demo Tabs Imports
 import TabAccount from 'Pages/AccountSettings/TabAccount'

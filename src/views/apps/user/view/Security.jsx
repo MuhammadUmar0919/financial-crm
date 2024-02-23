@@ -30,7 +30,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 // ** components Imports
-import Iconify from "Components/Iconify";
+import Iconify from "@core/components/iconify";
 // utils import
 import { PWD_REGEX } from "Utils/validators";
 import { showErrors } from "Utils/showErrors";

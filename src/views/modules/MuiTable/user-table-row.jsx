@@ -11,39 +11,38 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 // components import
-import Label from 'Components/Label';
-import Iconify from 'Components/Iconify';
-import StatusForm from 'Components/StatusForm';
-import { StyledMenuItem } from 'Components/StyledMenuItem/Style';
-import { AbilityContext } from 'Layout/components/acl/Can';
+import Label from '@/@core/components/label';
+import Iconify from '@/@core/components/iconify';
+import StatusForm from '@/@core/components/status-form';
+import { AbilityContext } from '@/Layout/components/acl/Can';
+import { StyledMenuItem } from '@/Components/StyledMenuItem/Style';
 // modules import
-import CrudForm from 'Modules/CrudModule/CrudForm';
+import CrudForm from '@/Modules/CrudModule/CrudForm';
 // change case import
 import { sentenceCase } from 'change-case';
 // utils import
-import { fDate } from 'Utils/formatTime';
-import { statusIcons } from 'Utils/statusIcons';
-import { statusColors } from 'Utils/statusColors';
-import { NumberOfStatuses } from 'Utils/numberOfStatuses';
-import { contactedFunc, userProfile } from 'Utils/dataUtils';
+import { fDate } from '@/Utils/formatTime';
+import { statusIcons } from '@/Utils/statusIcons';
+import { statusColors } from '@/Utils/statusColors';
+import { NumberOfStatuses } from '@/Utils/numberOfStatuses';
+import { contactedFunc } from '@/Utils/dataUtils';
 
 // ** Custom Components Imports
-import CustomAvatar from '@core/components/mui/avatar';
+import CustomAvatar from '@/@core/components/mui/avatar';
 import { Box, MenuItem, Tooltip } from '@mui/material';
+import { crud } from '@/Redux/crud/actions';
+import { selectDeletedItem } from '@/Redux/crud/selectors';
+import { useData } from '@/Hooks/useData';
+import { updateConfig } from '@/Redux/configSlice';
 
 // ---------------------------------------------------------------------- //
 
 export default function UserTableRow({ rowArguments }) {
+  const { row, config, selected, handleClick } = rowArguments;
   const {
-    row,
-    config,
-    selected,
-    handleClick,
-  } = rowArguments;
-  const {
-    id,
     age,
     email,
+    protId,
     status,
     billTo,
     country,
@@ -62,23 +61,15 @@ export default function UserTableRow({ rowArguments }) {
     categoryName,
     companyEmail,
   } = row;
-  const {
-    onEdit,
-    schema,
-    loading,
-    onDelete,
-    crudForm,
-    tableCell,
-    tableTitle,
-    smallWidth,
-    statusData,
-  } = config;
-
+  const { entity, endpoint, tableCell, tableTitle, statusData, UPDATE_ENTITY } = config;
   const dispatch = useDispatch();
+  const { getUserData } = useData();
+
   const [open, setOpen] = React.useState(null);
   const [itemSet, setItem] = React.useState(null);
-  const { authData } = useSelector((state) => state.authReducer);
-  const { clientsData } = useSelector((state) => state.clientsReducer);
+  const { isSuccess } = useSelector(selectDeletedItem);
+  const authData = [];
+  const clientsData = [];
 
   const handleOpenMenu = (event, value) => {
     setOpen(event.currentTarget);
@@ -88,33 +79,43 @@ export default function UserTableRow({ rowArguments }) {
   const handleCloseMenu = () => {
     setOpen(null);
   };
-  // ** Hook
-  const ability = React.useContext(AbilityContext);
 
-  const handleViewData = (profile, allData) => {
+  // ** Hook
+  // const ability = React.useContext(AbilityContext);
+
+  const handleViewData = (currentData) => {
     const data = {
-      onEdit,
-      allData,
-      loading,
-      profile,
+      entity,
+      endpoint,
+      currentData,
       tableCell,
+      create: false
     };
-    dispatch({ type: 'VIEW_SUCCESS', data: data });
+    dispatch(updateConfig(data));
     handleCloseMenu();
+    // dispatch(crud.currentItem({ data: record }));
   };
 
-  const handleDelete = (id) => {
-    dispatch(onDelete(id));
+  const handleDelete = (currentItem) => {
+    dispatch(crud.delete({ entity, id: currentItem }));
+    dispatch(crud.list({ entity }));
   };
 
   React.useEffect(() => {
+    if (isSuccess) {
+      dispatch(crud.list({ entity }));
+      dispatch(crud.resetAction({ actionType: 'delete' }));
+    }
+  }, [isSuccess]);
+
+  React.useEffect(() => {
     const data = {
-      onEdit,
-      loading,
+      entity,
+      endpoint,
       tableCell,
     };
     dispatch({ type: 'VIEW_SUCCESS', data: data });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -134,12 +135,12 @@ export default function UserTableRow({ rowArguments }) {
                   <br />
                   <Typography variant="caption" sx={{ color: 'common.white', fontWeight: 600 }}>
                     Balance:
-                  </Typography>{' '}
+                  </Typography>
                   {balance}
                   <br />
                   <Typography variant="caption" sx={{ color: 'common.white', fontWeight: 600 }}>
                     Due Date:
-                  </Typography>{' '}
+                  </Typography>
                   {fDate(dueDate)}
                 </div>
               }
@@ -184,10 +185,10 @@ export default function UserTableRow({ rowArguments }) {
                     letterSpacing: '.1px',
                   }}
                 >
-                  {userProfile(billTo, clientsData).fullName}
+                  {getUserData(billTo)?.fullName}
                 </Typography>
                 <Typography noWrap variant="caption">
-                  {userProfile(billTo, clientsData).companyEmail}
+                  {getUserData(billTo)?.companyEmail}
                 </Typography>
               </Box>
             )}
@@ -207,18 +208,18 @@ export default function UserTableRow({ rowArguments }) {
 
         {tableCell?.numberOfSales && (
           <TableCell align="center">
-            <Label color={'info'}>{NumberOfStatuses(id, clientsData, 'sale')}</Label>
+            <Label color={'info'}>{NumberOfStatuses(protId, clientsData, 'sale')}</Label>
           </TableCell>
         )}
         {tableCell?.numberOfMeeting && (
           <TableCell align="center">
-            <Label color={'success'}>{NumberOfStatuses(id, clientsData, 'meeting')}</Label>
+            <Label color={'success'}>{NumberOfStatuses(protId, clientsData, 'meeting')}</Label>
           </TableCell>
         )}
 
         {tableCell?.numberOfRejections && (
           <TableCell align="center">
-            <Label color={'warning'}>{NumberOfStatuses(id, clientsData, 'rejected')}</Label>
+            <Label color={'warning'}>{NumberOfStatuses(protId, clientsData, 'rejected')}</Label>
           </TableCell>
         )}
 
@@ -229,7 +230,16 @@ export default function UserTableRow({ rowArguments }) {
         {tableCell?.age && <TableCell align="left">{age}</TableCell>}
 
         {tableCell?.createdBy && (
-          <TableCell align="left">{userProfile(createdBy, authData).fullName}</TableCell>
+          <TableCell align="left">
+            <Stack>
+              <Typography variant="subtitle2" noWrap>
+                {getUserData(createdBy)?.fullName}
+              </Typography>
+              <Typography noWrap variant="caption">
+                {getUserData(createdBy)?.roleName?.replace('-', ' ')}
+              </Typography>
+            </Stack>
+          </TableCell>
         )}
 
         {tableCell?.createdAt && <TableCell align="left">{fDate(createdAt)}</TableCell>}
@@ -275,61 +285,60 @@ export default function UserTableRow({ rowArguments }) {
           },
         }}
       >
-        {tableTitle.toLowerCase() === 'invoice' ? (
-          <MenuItem component={Link} color="secondary" to={`/invoice/edit/${itemSet?.id}`}>
+        {entity === 'invoices' ? (
+          <MenuItem
+            component={Link}
+            color="secondary"
+            to={`/invoice/${'edit'}`}
+            onClick={() => handleViewData(itemSet)}
+          >
             <Iconify width={24} icon={'eva:edit-outline'} sx={{ mr: 2 }} />
             Edit
           </MenuItem>
         ) : (
-          ability.can('update', tableTitle.toLowerCase()) && (
-            <CrudForm
-              type="update"
-              schema={schema}
-              onCrud={onEdit}
-              loading={loading}
-              title={tableTitle}
-              initialState={itemSet}
-              smallWidth={smallWidth}
-              FormElements={crudForm}
-              close={handleCloseMenu}
-            />
-          )
+          // ability.can('update', tableTitle.toLowerCase()) && (
+          <CrudForm
+            type="update"
+            config={config}
+            title={UPDATE_ENTITY}
+            initialState={itemSet}
+            close={handleCloseMenu}
+          />
+          // )
         )}
 
         {tableCell?.statusBtn && (
           <StatusForm
             data={itemSet}
-            onEdit={onEdit}
-            loading={loading}
-            statusData={statusData}
+            config={config}
             close={handleCloseMenu}
           />
         )}
 
         {tableCell?.viewBtn &&
-          (tableTitle.toLowerCase() === 'invoice' ? (
-            <StyledMenuItem color="warning" component={Link} to={`/invoice/preview/${itemSet?.id}`}>
+          (tableTitle === 'invoice' ? (
+            <StyledMenuItem color="warning" component={Link} to={`/invoice/preview/${itemSet?.protId}`}>
               <Iconify width={24} sx={{ mr: 2 }} icon={'mdi:account-eye-outline'} />
               View
             </StyledMenuItem>
           ) : (
             <StyledMenuItem
               color="warning"
-              onClick={() => handleViewData(itemSet, contactedFunc(itemSet?.id, authData))}
+              onClick={() => handleViewData(itemSet, contactedFunc(itemSet?.protId, authData))}
               component={Link}
-              to={`/${tableTitle.toLowerCase()}/view/${itemSet?.id}`}
+              // to={`/${tableTitle}/view/${itemSet?.protId}`}
             >
               <Iconify width={24} sx={{ mr: 2 }} icon={'mdi:account-eye-outline'} />
               View
             </StyledMenuItem>
           ))}
 
-        {ability.can('remove', tableTitle.toLowerCase()) && (
-          <StyledMenuItem onClick={() => handleDelete(itemSet.id)} color="error">
-            <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-            Delete
-          </StyledMenuItem>
-        )}
+        {/* {ability.can('remove', tableTitle) && ( */}
+        <StyledMenuItem onClick={() => handleDelete(itemSet.id)} color="error">
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          Delete
+        </StyledMenuItem>
+        {/* )} */}
       </Popover>
     </>
   );

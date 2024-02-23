@@ -12,7 +12,7 @@ import CardContent from '@mui/material/CardContent'
 import { Link } from 'react-router-dom'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Custom Components Imports
 import CustomChip from '@core/components/mui/chip'

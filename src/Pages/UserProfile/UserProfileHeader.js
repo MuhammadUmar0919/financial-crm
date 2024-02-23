@@ -14,7 +14,7 @@ import CardContent from '@mui/material/CardContent'
 import axios from 'axios'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 import useToken from 'Hooks/UseToken'
 import { sentenceCase } from 'change-case'
 

@@ -15,7 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Payment from 'payment'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Custom Components Imports
 import CustomRadioIcons from '@core/components/custom-radio/icons'

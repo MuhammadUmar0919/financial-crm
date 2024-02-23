@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Box, styled } from "@mui/material"
-import { SvgEmptyImages } from "Assets/Svg/SvgImages"
+import { SvgEmptyImages } from "@/Assets/Svg/SvgImages"
 
 export const EmptyData = ({message}) => {
   

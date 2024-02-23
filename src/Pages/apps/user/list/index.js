@@ -20,7 +20,7 @@ import CardContent from '@mui/material/CardContent'
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'

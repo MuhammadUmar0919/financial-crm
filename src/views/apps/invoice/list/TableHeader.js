@@ -9,7 +9,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 // context import
 import { AbilityContext } from 'Layouts/layout/components/acl/Can'
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 import { SearchInput } from '@core/components/custom-input'
 
 const TableHeader = props => {

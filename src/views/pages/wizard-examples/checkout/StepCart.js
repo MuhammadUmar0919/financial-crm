@@ -22,7 +22,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import CustomChip from '@core/components/mui/chip'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const StyledList = styled(List)(({ theme }) => ({
   padding: 0,

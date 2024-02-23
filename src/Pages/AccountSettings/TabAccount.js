@@ -28,7 +28,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 import { LoadingButton } from '@mui/lab'
 
 const initialData = {

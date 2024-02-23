@@ -26,7 +26,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import CustomChip from '@core/components/mui/chip'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const TabList = styled(MuiTabList)(({ theme }) => ({
   '& .MuiTabs-indicator': {

@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent'
 import { Tooltip, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const data = [
   { name: 'R&D', value: 50, color: '#00d4bd' },

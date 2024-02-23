@@ -4,12 +4,11 @@ import { useEffect } from "react";
 const tokenSession = JSON.parse(sessionStorage.getItem("admin"));
 const tokenLocal = JSON.parse(localStorage.getItem("admin"));
 const instance = axios.create({
-    baseURL: "url",
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
-        // "Accept-Language": "en",
         timeout: 2000,
-        // Authorization: `Bearer ${tokenSession || tokenLocal}`,
     },
 });
 
@@ -49,10 +48,10 @@ const AxiosInterceptor = ({ children }) => {
             resInterceptor,
             resErrInterceptor
         );
-        return (
-            () => instance.interceptors.request.eject(reqinterceptor),
-            () => instance.interceptors.response.eject(resinterceptor)
-        );
+        return () => {
+            instance.interceptors.request.eject(reqinterceptor);
+            instance.interceptors.response.eject(resinterceptor);
+        };
     }, []);
     return children;
 };

@@ -12,7 +12,7 @@ import MuiTab from "@mui/material/Tab"
 import CircularProgress from "@mui/material/CircularProgress"
 
 // ** Iconify Imports
-import Iconify from "Components/Iconify"
+import Iconify from "@core/components/iconify"
 
 // ** Demo Components Imports
 import Overview from "./Overview"

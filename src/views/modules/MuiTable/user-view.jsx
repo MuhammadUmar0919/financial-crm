@@ -10,17 +10,17 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { users } from 'src/_mock/user';
+import { users } from '@/_mock/user';
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from '@/components/iconify';
+import Scrollbar from '@/components/scrollbar';
 
 import TableNoData from './table-no-data';
 import UserTableRow from './user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from './table-empty-rows';
 import UserTableToolbar from './user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../../../Modules/CrudModule/utils';
+import { emptyRows, applyFilter, getComparator } from '@/Modules/CrudModule/utils';
 
 // ----------------------------------------------------------------------
 

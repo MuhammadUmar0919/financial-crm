@@ -1,96 +1,96 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import Link from '@mui/material/Link'
-import Switch from '@mui/material/Switch'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import Link from '@mui/material/Link';
+import Switch from '@mui/material/Switch';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
-import { CopiedBtn } from 'Components/CopiedBtn'
+import Iconify from '@core/components/iconify';
+import { CopiedBtn } from '@core/components/copied-btn';
 
 const connectedAccountsArr = [
   {
     checked: true,
     title: 'Google',
     logo: '/images/logos/google.png',
-    subtitle: 'Calendar and Contacts'
+    subtitle: 'Calendar and Contacts',
   },
   {
     checked: false,
     title: 'Slack',
     logo: '/images/logos/slack.png',
-    subtitle: 'Communications'
+    subtitle: 'Communications',
   },
   {
     checked: true,
     title: 'Github',
     logo: '/images/logos/github.png',
-    subtitle: 'Manage your Git repositories'
+    subtitle: 'Manage your Git repositories',
   },
   {
     checked: true,
     title: 'Mailchimp',
     subtitle: 'Email marketing service',
-    logo: '/images/logos/mail-chimp.png'
+    logo: '/images/logos/mail-chimp.png',
   },
   {
     title: 'Asana',
     checked: false,
     subtitle: 'Communication',
-    logo: '/images/logos/asana.png'
-  }
-]
+    logo: '/images/logos/asana.png',
+  },
+];
 
 const socialAccountsArr = [
   {
     title: 'Facebook',
     isConnected: false,
     username: '@Facebook',
-    logo: '/images/logos/facebook.png'
+    logo: '/images/logos/facebook.png',
   },
   {
     title: 'Twitter',
     isConnected: true,
     username: '@Twitter',
-    logo: '/images/logos/twitter.png'
+    logo: '/images/logos/twitter.png',
   },
   {
     title: 'Instagram',
     isConnected: true,
     username: '@Instagram',
-    logo: '/images/logos/instagram.png'
+    logo: '/images/logos/instagram.png',
   },
   {
     title: 'Dribbble',
     isConnected: false,
     username: '@Dribbble',
-    logo: '/images/logos/dribbble.png'
+    logo: '/images/logos/dribbble.png',
   },
   {
     title: 'Behance',
     isConnected: false,
     username: '@Behance',
-    logo: '/images/logos/behance.png'
-  }
-]
+    logo: '/images/logos/behance.png',
+  },
+];
 
 const TabConnections = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={6}>
         <Card>
-          <CardHeader title='Connected Accounts' />
+          <CardHeader title="Connected Accounts" />
           <CardContent>
             <Typography sx={{ mb: 4, color: 'text.secondary' }}>
               Display content from your connected accounts on your site
             </Typography>
 
-            {connectedAccountsArr.map(account => {
+            {connectedAccountsArr.map((account) => {
               return (
                 <Box
                   key={account.title}
@@ -99,23 +99,23 @@ const TabConnections = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    '&:not(:last-of-type)': { mb: 4 }
+                    '&:not(:last-of-type)': { mb: 4 },
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ mr: 4, display: 'flex', justifyContent: 'center' }}>
-                      <img src={account.logo} alt={account.title} height='30' width='30' />
+                      <img src={account.logo} alt={account.title} height="30" width="30" />
                     </Box>
                     <div>
                       <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>
-                      <Typography variant='body2' sx={{ color: 'text.disabled' }}>
+                      <Typography variant="body2" sx={{ color: 'text.disabled' }}>
                         {account.subtitle}
                       </Typography>
                     </div>
                   </Box>
                   <Switch defaultChecked={account.checked} />
                 </Box>
-              )
+              );
             })}
           </CardContent>
         </Card>
@@ -123,13 +123,13 @@ const TabConnections = () => {
 
       <Grid item xs={12} md={6}>
         <Card>
-          <CardHeader title='Social Accounts' />
+          <CardHeader title="Social Accounts" />
           <CardContent>
             <Typography sx={{ mb: 4, color: 'text.secondary' }}>
               Display content from social accounts on your site
             </Typography>
 
-            {socialAccountsArr.map(account => {
+            {socialAccountsArr.map((account) => {
               return (
                 <Box
                   key={account.title}
@@ -138,57 +138,55 @@ const TabConnections = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    '&:not(:last-of-type)': { mb: 4 }
+                    '&:not(:last-of-type)': { mb: 4 },
                   }}
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ mr: 4, minWidth: 45, display: 'flex', justifyContent: 'center' }}>
-                      <img src={account.logo} alt={account.title} height='30' />
+                      <img src={account.logo} alt={account.title} height="30" />
                     </Box>
                     <div>
                       <Typography sx={{ fontWeight: 500 }}>{account.title}</Typography>
                       {account.isConnected ? (
                         <Typography
-                          to='/'
+                          to="/"
                           component={Link}
                           sx={{ color: 'primary.main' }}
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                         >
                           {account.username}
                         </Typography>
                       ) : (
-                        <Typography variant='body2' sx={{ color: 'text.disabled' }}>
+                        <Typography variant="body2" sx={{ color: 'text.disabled' }}>
                           Not Connected
                         </Typography>
                       )}
                     </div>
                   </Box>
                   <Button
-                    variant='outlined'
+                    variant="outlined"
                     sx={{ p: 1.5, minWidth: 38 }}
                     color={account.isConnected ? 'error' : 'secondary'}
                   >
-                    {
-                      account.isConnected ? (
-                        <Iconify icon='mdi:delete-outline' />
-                      ) : (
-                        <CopiedBtn 
-                          sx={{display: 'contents'}}
-                          title={account.title} 
-                          text={account.username}
-                          icon="mdi:link-variant"
-                        />
-                      )
-                    }
+                    {account.isConnected ? (
+                      <Iconify icon="mdi:delete-outline" />
+                    ) : (
+                      <CopiedBtn
+                        sx={{ display: 'contents' }}
+                        title={account.title}
+                        text={account.username}
+                        icon="mdi:link-variant"
+                      />
+                    )}
                   </Button>
                 </Box>
-              )
+              );
             })}
           </CardContent>
         </Card>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default TabConnections
+export default TabConnections;

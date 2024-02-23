@@ -12,7 +12,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Third Party Imports
-import axios from 'axios'
+// import axios from 'axios'
 
 // ** Custom Components Imports
 import OptionsMenu from '@core/components/option-menu'
@@ -132,11 +132,11 @@ const ProfileTable = () => {
   const [data, setData] = useState([])
   const [value, setValue] = useState('')
   const [pageSize, setPageSize] = useState(7)
-  useEffect(() => {
-    axios.get('/pages/profile-table', { params: { q: value } }).then(response => {
-      setData(response.data)
-    })
-  }, [value])
+  // useEffect(() => {
+  //   axios.get('/pages/profile-table', { params: { q: value } }).then(response => {
+  //     setData(response.data)
+  //   })
+  // }, [value])
 
   const handleFilter = val => {
     setValue(val)

@@ -73,27 +73,27 @@ const navigation = (token) => {
       subject: 'admins',
       icon: 'mdi:account-tie-hat-outline',
     },
-    {
-      type: 'group',
-      action: 'read',
-      subject: 'access-control',
-      title: 'Roles & Permissions',
-      icon: 'mdi:shield-account-variant-outline',
-      children: [
-        {
-          type: 'item',
-          title: 'Roles',
-          path: '/access-control/roles',
-          icon: 'clarity:employee-group-line',
-        },
-        {
-          type: 'item',
-          title: 'Permissions',
-          icon: 'mdi:account-group-outline',
-          path: '/access-control/permissions',
-        }
-      ]
-    },
+    // {
+    //   type: 'group',
+    //   action: 'read',
+    //   subject: 'access-control',
+    //   title: 'Roles & Permissions',
+    //   icon: 'mdi:shield-account-variant-outline',
+    //   children: [
+    //     {
+    //       type: 'item',
+    //       title: 'Roles',
+    //       path: '/access-control/roles',
+    //       icon: 'clarity:employee-group-line',
+    //     },
+    //     {
+    //       type: 'item',
+    //       title: 'Permissions',
+    //       icon: 'mdi:account-group-outline',
+    //       path: '/access-control/permissions',
+    //     }
+    //   ]
+    // },
     {
       type: 'group',
       action: 'read',

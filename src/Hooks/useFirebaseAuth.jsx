@@ -1,7 +1,7 @@
 // react import
 import { useState, useEffect } from 'react';
 // configs import
-import Firebase from 'configs/firebase';
+import Firebase from '@/configs/firebase';
 
 const formatAuthUser = user => {
   return {

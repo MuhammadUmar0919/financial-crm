@@ -25,7 +25,7 @@ import TableCell from '@mui/material/TableCell'
 import CardContent from '@mui/material/CardContent'
 
 // ** Iconify Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'

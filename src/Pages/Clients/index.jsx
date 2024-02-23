@@ -1,27 +1,15 @@
 // react imports
 import React from 'react';
-import uuid from 'react-uuid';
-import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
 // data import
-import { usersStatus, IconData } from 'Data';
-
-// hooks import
-import useToken from 'Hooks/UseToken';
-
+import { IconData } from '@/Data';
 // modules import
-import CrudModule from 'Modules/CrudModule';
-
+import CrudModule from '@/Modules/CrudModule';
 // component import
-import { ToastPromise } from '@core/components/Downloads/ToastPromise';
-import { clientSchema } from 'Libs/validations';
-import { TimeSleep } from 'Utils/timeSleep';
-import ClientForm from 'Modules/FormFields/ClientForm';
+import { useData } from '@/Hooks/useData';
+import { clientSchema } from '@/Libs/validations';
+import ClientForm from '@/Modules/FormFields/ClientForm';
 
 export const initialState = {
-  id: '',
   address: '',
   country: '',
   fullName: '',
@@ -29,7 +17,7 @@ export const initialState = {
   createdBy: '',
   dateOfSale: '',
   createdDate: '',
-  phoneNumber: '',
+  phoneNumber: '+998',
   meetingDate: '',
   companyName: '',
   companyEmail: '',
@@ -42,80 +30,12 @@ export const initialState = {
 };
 
 const Clients = () => {
-  const navigate = useNavigate();
-  const { token } = useToken();
-  const [pageData, setPageData] = React.useState([]);
-  const { clientsData, loading } = useSelector((state) => state.clientsReducer);
-  // const filterData = clientsData?.filter((item) => item.createdBy === token.id)
-
-  const getResponse = () => {
-    TimeSleep();
-    try {
-      setPageData(clientsData);
-    } catch (error) {
-      if (error.response?.status === 500) navigate('/server-error');
-      toast.error('There was a problem loading the clients');
-    }
-  };
+  const { statusData, getStatusData } = useData();
 
   React.useEffect(() => {
-    getResponse();
-  }, [clientsData]);
-
-  const onCreate = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'CLIENTS_START' });
-      const value = {
-        ...data,
-        id: uuid(),
-        createdBy: token.id,
-        createdAt: new Date(),
-      };
-      try {
-        await ToastPromise('Client', 'onCreate', true);
-        dispatch({ type: 'CLIENTS_SUCCESS', data: value });
-      } catch (error) {
-        dispatch({ type: 'CLIENTS_FAIL', data: value });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Client', 'onCreate', false);
-      } finally {
-        getResponse();
-      }
-    };
-  };
-
-  const onEdit = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'CLIENTS_UPDATING_START' });
-      try {
-        await ToastPromise('Client', 'onEdit', true);
-        dispatch({ type: 'CLIENTS_UPDATING_SUCCESS', data: data });
-      } catch (error) {
-        await ToastPromise('Client', 'onEdit', false);
-        dispatch({ type: 'CLIENTS_UPDATING_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-      } finally {
-        getResponse();
-      }
-    };
-  };
-
-  const onDelete = (id) => {
-    return async (dispatch) => {
-      dispatch({ type: 'CLIENTS_START' });
-      try {
-        await ToastPromise('Client', 'onDelete', true);
-        dispatch({ type: 'CLIENTS_DELETE', id: id });
-      } catch (error) {
-        dispatch({ type: 'CLIENTS_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Client', 'onDelete', false);
-      } finally {
-        getResponse();
-      }
-    };
-  };
-
+    getStatusData('Client')
+  }, []);
+  
   const columns = [
     { id: 'fullName', label: 'Name', alignRight: false },
     { id: 'companyEmail', label: 'Company email', alignRight: false },
@@ -127,16 +47,36 @@ const Clients = () => {
     { id: 'action', label: 'Actions', alignRight: false },
   ];
 
+  const entity = 'clients';
+  const searchConfig = {
+    displayLabels: ['name'],
+    searchFields: 'name',
+  };
+  const deleteModalLabels = ['name'];
+
+  const Labels = {
+    PANEL_TITLE: 'client',
+    DATATABLE_TITLE: 'Clients List',
+    ADD_NEW_ENTITY: 'Add new client',
+    ENTITY_NAME: 'client',
+    UPDATE_ENTITY: 'Update client',
+  };
+
+  const configPage = {
+    entity,
+    ...Labels,
+  };
+
   const tableCell = {
     status: true,
     address: true,
-    viewBtn: true,
+    viewBtn: false,
     editBtn: true,
     country: false,
     fullName: true,
     createBtn: true,
     createdAt: true,
-    statusBtn: true,
+    statusBtn: false,
     deleteBtn: true,
     companyName: true,
     phoneNumber: true,
@@ -147,18 +87,15 @@ const Clients = () => {
   };
 
   const config = {
-    onEdit,
     columns,
-    loading,
-    onCreate,
-    onDelete,
     tableCell,
+    statusData,
     initialState,
-    tableData: pageData,
+    searchConfig,
+    ...configPage,
+    deleteModalLabels,
     crudForm: ClientForm,
     schema: clientSchema,
-    tableTitle: 'Clients',
-    statusData: usersStatus,
   };
 
   return <CrudModule config={config} />;

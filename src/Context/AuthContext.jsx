@@ -1,16 +1,14 @@
 // ** React-redux
-import { useDispatch, useSelector } from "react-redux"
-// ** Axios
-// import axios from 'axios'
-
+import { useDispatch } from 'react-redux';
 // ** Config
-import authConfig from "configs/auth"
+import authConfig from '@/configs/auth';
 // ** Utils
-import { TimeSleep } from "Utils/timeSleep"
+import { TimeSleep } from '@/Utils/timeSleep';
 // ** Hooks
-import useToken from "Hooks/UseToken"
-import toast from "react-hot-toast"
-import React from "react"
+import React from 'react';
+import toast from 'react-hot-toast';
+import useToken from '@/Hooks/useToken';
+import { useData } from '@/Hooks/useData';
 
 // ** Defaults
 const defaultProvider = {
@@ -21,16 +19,20 @@ const defaultProvider = {
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
-}
-const AuthContext = React.createContext(defaultProvider)
+};
+
+const AuthContext = React.createContext(defaultProvider);
 
 const AuthProvider = ({ children }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // const navigate = useNavigate()
-  const { token, setToken } = useToken()
+  const { allEmployee } = useData();
+  const { token, setToken } = useToken();
   // ** States
-  const [user, setUser] = React.useState(defaultProvider.user)
-  const { authData, loading } = useSelector((state) => state.authReducer)
+  const [user, setUser] = React.useState(defaultProvider.user);
+  const [loading, setLoading] = React.useState(false);
+
+  // const { authData, loading } = useSelector((state) => state.authReducer)
   // ** Hooks
   // React.useEffect(() => {
   //   const initAuth = async () => {
@@ -64,68 +66,57 @@ const AuthProvider = ({ children }) => {
   //   initAuth()
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [])
+  const superAdmin = {
+    roleName: 'super-admin',
+    password: 'Ixtiyor0919$%',
+    email: 'ixtiyor0919@gmail.com',
+    fullName: 'Komiljonov Ixtiyor',
+    id: '19943cbb-c5f7-0f2b-4101-ff8c893c4548',
+    portId: '19943cbb-c5f7-0f2b-4101-ff8c893c4548',
+  }
+  const allEmployeeData = [...allEmployee, superAdmin]
   const handleLogin = async (params, errorCallback) => {
-    dispatch({ type: "AUTH_START" })
+    setLoading(true)
     try {
-      if (authData?.length) {
-        await TimeSleep()
-        for (let auth of authData) {
-          if (
-            params.email === auth.email &&
-            params.password === auth.password
-          ) {
-            toast.success("Avtorizatsiya muvaffaqiyatli qabul qilindi")
-            // await handleRequest()
-            // dispatch({ type: "AUTH_SUCCESS" })
-            
-            setToken(auth, params.rememberMe)
-            setUser(auth.roleName)
-            window.location.href = "/"
+      if(allEmployeeData.length > 0) {
+        for (let employee of allEmployeeData) {
+          if (params.email === employee.email && params.password === employee.password) {
+            toast.success('Avtorizatsiya muvaffaqiyatli qabul qilindi');
+            setToken(employee, params.rememberMe);
+            setUser(employee.roleName);
+            await TimeSleep();
+            window.location.href = '/';
           } else {
-            toast.error("You are not registered!")
-            dispatch({ type: "AUTH_FAIL" })
+            toast.error('You are not registered!');
           }
         }
+      } else {
+        toast.error('You are not registered!');
       }
     } catch (err) {
-      toast.info("Not registered!")
-      dispatch({ type: "AUTH_FAIL" })
-      if (err.response?.status === 500) window.location.href = "/server-error"
+      toast.error(err);
+      if (err.response?.status === 500) window.location.href = '/server-error';
+    } finally {
+      setLoading(false)
     }
-    dispatch({ type: "AUTH_SUCCESS" })
-  }
- 
+  };
+
   const handleLogOutToken = () => {
-    if (sessionStorage.getItem("crm-admin"))
-      sessionStorage.removeItem("crm-admin", token)
-    if (localStorage.getItem("profile"))
-      localStorage.removeItem("profile", token)
-    if (localStorage.getItem("crm-admin")) {
-      localStorage.removeItem("crm-admin", token)
+    if (sessionStorage.getItem('crm-admin')) sessionStorage.removeItem('crm-admin', token);
+    if (localStorage.getItem('profile')) localStorage.removeItem('profile', token);
+    if (localStorage.getItem('crm-admin')) {
+      localStorage.removeItem('crm-admin', token);
     }
-    dispatch({ type: "ACL_DELETE" })
-  }
+    dispatch({ type: 'ACL_DELETE' });
+  };
 
   const handleLogout = () => {
-    setUser(null)
-    handleLogOutToken()
-    window.localStorage.removeItem("userData")
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    window.location.href = "/login"
-  }
-
-  const handleRegister = (params, errorCallback) => {
-    // axios
-    //   .post(authConfig.registerEndpoint, params)
-    //   .then(res => {
-    //     if (res.data.error) {
-    //       if (errorCallback) errorCallback(res.data.error)
-    //     } else {
-    //       handleLogin({ email: params.email, password: params.password })
-    //     }
-    //   })
-    //   .catch(err => (errorCallback ? errorCallback(err) : null))
-  }
+    setUser(null);
+    handleLogOutToken();
+    window.localStorage.removeItem('userData');
+    window.localStorage.removeItem(authConfig.storageTokenKeyName);
+    window.location.href = '/login';
+  };
 
   const values = {
     user,
@@ -133,10 +124,9 @@ const AuthProvider = ({ children }) => {
     setUser,
     login: handleLogin,
     logout: handleLogout,
-    register: handleRegister,
-  }
+  };
 
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
-}
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+};
 
-export { AuthContext, AuthProvider }
+export { AuthContext, AuthProvider };

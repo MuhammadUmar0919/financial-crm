@@ -12,7 +12,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiAutocomplete from '@mui/material/Autocomplete'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 import { useNavigate } from 'react-router-dom'
 
 // Styled Autocomplete component

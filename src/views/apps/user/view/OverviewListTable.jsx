@@ -14,9 +14,9 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 // ** Custom Component Imports
-import Label from "Components/Label";
-import Iconify from "Components/Iconify";
-import { ExportBtn } from "Components/Export";
+import Label from "@core/components/label";
+import Iconify from "@core/components/iconify";
+import { ExportBtn } from "@core/components/export";
 import CustomAvatar from "@core/components/mui/avatar";
 import OptionsMenu from "@core/components/option-menu";
 // change case import

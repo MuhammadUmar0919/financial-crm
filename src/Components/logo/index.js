@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { Box, Link } from '@mui/material';
-import Iconify from '../Iconify';
+import Iconify from '../../@core/components/Iconify';
 
 // ----------------------------------------------------------------------
 

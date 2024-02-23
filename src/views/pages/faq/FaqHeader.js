@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiTextField from '@mui/material/TextField'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // Styled Card component
 const Card = styled(MuiCard)(({ theme }) => ({

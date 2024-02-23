@@ -1,5 +1,5 @@
 import SimpleBar from 'simplebar-react';
-// @mui
+
 import { alpha, styled } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -19,12 +19,6 @@ export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({
     '&.simplebar-visible:before': {
       opacity: 1,
     },
-  },
-  '& .simplebar-track.simplebar-vertical': {
-    width: 10,
-  },
-  '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
-    height: 6,
   },
   '& .simplebar-mask': {
     zIndex: 'inherit',

@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 const renderList = arr => {
   if (arr && arr.length) {
@@ -68,7 +68,6 @@ const renderTeams = arr => {
 
 const AboutOverivew = props => {
   const { teams, about, contacts, overview } = props
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>

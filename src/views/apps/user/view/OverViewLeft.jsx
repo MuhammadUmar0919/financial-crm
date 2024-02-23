@@ -12,7 +12,7 @@ import CardContent from "@mui/material/CardContent"
 import CardActions from "@mui/material/CardActions"
 
 // ** Iconify Imports
-import Iconify from "Components/Iconify"
+import Iconify from "@core/components/iconify"
 
 // ** Custom Components
 import CustomChip from "@core/components/mui/chip"
@@ -22,12 +22,12 @@ import SubscriptionDialog from "./SubscriptionDialog"
 
 // ** Utils Import
 import { getInitials } from "@core/utils/get-initials"
-import Label from "Components/Label"
+import Label from "@core/components/label"
 import { sentenceCase } from "change-case"
 import { momentDate } from "Utils/formatTime"
 import { createdByFind } from "Utils/dataUtils"
-import RankForm from "Components/RankForm"
-import AssignmentForm from "Components/AssignmentForm"
+import RankForm from "@core/components/rank-form"
+import AssignmentForm from "@core/components/assignment-form"
 import { fDateTime } from "Utils/formatTime"
 import { useSelector } from "react-redux"
 

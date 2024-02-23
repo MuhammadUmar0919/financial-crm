@@ -113,7 +113,7 @@
 
 // export default GlobalStyles
 // ** Hook Import
-import { useSettings } from '@core/hooks/useSettings'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 const GlobalStyles = theme => {
   // ** Hook & Var
@@ -168,7 +168,7 @@ const GlobalStyles = theme => {
         }
       }
     },
-    '#nprogress': {
+    '.nprogress': {
       pointerEvents: 'none',
       '& .bar': {
         left: 0,
@@ -177,8 +177,8 @@ const GlobalStyles = theme => {
         width: '100%',
         zIndex: 2000,
         position: 'fixed',
-        backgroundColor: theme.palette.primary.main
-      }
+      },
+      backgroundColor: theme.palette.primary.main
     }
   }
 }

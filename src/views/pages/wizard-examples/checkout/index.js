@@ -12,7 +12,7 @@ import CardContent from '@mui/material/CardContent'
 import MuiStepper from '@mui/material/Stepper'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Step Components
 import StepCart from 'views/pages/wizard-examples/checkout/StepCart'

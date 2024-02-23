@@ -19,7 +19,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Third Party Imports
 import format from 'date-fns/format'

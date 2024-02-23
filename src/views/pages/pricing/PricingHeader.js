@@ -6,7 +6,7 @@ import InputLabel from '@mui/material/InputLabel'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Icon Import
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 // ** Custom Component Import
 import CustomChip from '@core/components/mui/chip'

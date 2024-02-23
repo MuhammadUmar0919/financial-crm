@@ -1,18 +1,10 @@
 // react imports
 import React from 'react';
-import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 // module
-import CrudModule from 'Modules/CrudModule';
-// data import
-import { statusInvoice } from 'Data';
-// hooks import
-import useToken from 'Hooks/UseToken';
-// utils import
-import { ToastPromise } from '@core/components/Downloads/ToastPromise';
+import CrudModule from '@/Modules/CrudModule';
 import { Box } from '@mui/material';
-import Iconify from 'Components/Iconify';
+import Iconify from '@/@core/components/iconify';
+import { useData } from '@/Hooks/useData';
 
 export const initialState = {
   id: '',
@@ -34,64 +26,11 @@ export const initialState = {
 };
 
 const InvoicePage = () => {
-  const { token } = useToken();
-  // const dispatch = useDispatch()
-  const navigate = useNavigate();
-  const [pageData, setPageData] = React.useState([]);
-
-  const { invoiceData, loading } = useSelector((state) => state.invoiceReducer);
+  const { statusData, getStatusData } = useData();
 
   React.useEffect(() => {
-    try {
-      setPageData(invoiceData);
-    } catch (error) {
-      if (error.response?.status === 500) navigate('/server-error');
-      toast.error('There was a problem loading the invoices');
-    }
-  }, [invoiceData]);
-
-  const onCreate = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'INVOICE_START' });
-
-      try {
-        await ToastPromise('Invoice', 'onCreate', true);
-        dispatch({ type: 'INVOICE_SUCCESS', data: data });
-      } catch (error) {
-        dispatch({ type: 'AINVOICE_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Invoice', 'onCreate', false);
-      }
-    };
-  };
-
-  const onEdit = (data) => {
-    return async (dispatch) => {
-      dispatch({ type: 'INVOICE_UPDATING_START' });
-      try {
-        await ToastPromise('Invoice', 'onEdit', true);
-        dispatch({ type: 'INVOICE_UPDATING_SUCCESS', data: data });
-      } catch (error) {
-        dispatch({ type: 'INVOICE_UPDATING_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Invoice', 'onEdit', false);
-      }
-    };
-  };
-
-  const onDelete = (id) => {
-    return async (dispatch) => {
-      dispatch({ type: 'INVOICE_START' });
-      try {
-        await ToastPromise('Invoice', 'onDelete', true);
-        dispatch({ type: 'INVOICE_DELETE', id: id });
-      } catch (error) {
-        dispatch({ type: 'INVOICE_FAIL' });
-        if (error.response?.status === 500) navigate('/server-error');
-        await ToastPromise('Invoice', 'onDelete', false);
-      }
-    };
-  };
+    getStatusData('Invoice')
+  }, []);
 
   const trendingUp = (
     <Box sx={{ display: 'flex', color: 'action.active' }}>
@@ -117,21 +56,47 @@ const InvoicePage = () => {
     dueDate: true,
     viewBtn: true,
     balance: true,
+    // createdBy: true,
     issuedDate: true,
     tooltipData: true,
   };
 
+    
+  const entity = 'invoices';
+  const endpoint = 'invoices';
+
+  const searchConfig = {
+    displayLabels: ['name', 'surname'],
+    searchFields: 'email,name,surname',
+    outputValue: '_id',
+  };
+
+  const PANEL_TITLE = 'Invoice Panel';
+  const dataTableTitle = 'Invoice Lists';
+  const entityDisplayLabels = ['email'];
+
+  const ADD_NEW_ENTITY = 'Add new invoice';
+  const DATATABLE_TITLE = 'Invoices List';
+  const ENTITY_NAME = 'invoice';
+  const CREATE_ENTITY = 'Create invoice';
+  const UPDATE_ENTITY = 'Update invoice';
+  
+
   const config = {
-    onEdit,
+    entity,
     columns,
-    loading,
-    tableTitle: 'Invoice',
-    onCreate,
-    onDelete,
-    tableData: pageData,
+    endpoint,
     tableCell,
-    statusData: statusInvoice,
+    statusData,
+    PANEL_TITLE,
+    ENTITY_NAME,
+    searchConfig,
     initialState,
+    CREATE_ENTITY,
+    UPDATE_ENTITY,
+    dataTableTitle,
+    ADD_NEW_ENTITY,
+    DATATABLE_TITLE,
   };
   
   return <CrudModule config={config} />;

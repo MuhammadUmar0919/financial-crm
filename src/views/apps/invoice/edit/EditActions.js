@@ -15,7 +15,7 @@ import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 const OptionsWrapper = styled(Box)(() => ({
   display: 'flex',

@@ -14,7 +14,7 @@ import MuiTabList from '@mui/lab/TabList'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** Demo Components
 import Teams from 'Pages/UserProfile/teams'
@@ -596,8 +596,9 @@ const UserProfile = () => {
   const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
 
   const handleChange = (event, value) => {
-    // setIsLoading(true)
+    setIsLoading(true)
     setActiveTab(value)
+    setIsLoading(false)
     // navigate({
     //     pathname: `/pages/user-profile/${value.toLowerCase()}`
     //   })

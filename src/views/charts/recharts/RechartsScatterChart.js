@@ -17,7 +17,7 @@ import DatePicker from 'react-datepicker'
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/Iconify'
 
 const angularData = [
   { x: 5.4, y: 170 },

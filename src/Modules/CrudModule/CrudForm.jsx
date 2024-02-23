@@ -13,29 +13,26 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // react redux import
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // react hooks form import
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// utils import
-import { TimeSleep } from 'Utils/timeSleep';
+import { zodResolver } from '@hookform/resolvers/zod';
 // components import
-import Iconify from 'Components/Iconify';
+import Iconify from '@/@core/components/iconify';
 import ScrollBar from 'react-perfect-scrollbar';
+import { selectCreatedItem, selectUpdatedItem } from '@/Redux/crud/selectors';
+import { crud } from '@/Redux/crud/actions';
+import useToken from '@/Hooks/useToken';
+import uuid from 'react-uuid';
 
-export default function CrudForm({
-  type,
-  title,
-  close,
-  onCrud,
-  schema,
-  loading,
-  smallWidth,
-  initialState,
-  FormElements,
-}) {
+export default function CrudForm({ type, title, close, config, initialState }) {
   const dispatch = useDispatch();
+  const { token } = useToken();
   const [open, setOpen] = React.useState(false);
+  const { isLoading: loading, isSuccess } = useSelector(
+    type === 'create' ? selectCreatedItem : selectUpdatedItem
+  );
+  const { crudForm: FormElements, schema, entity, smallWidth } = config;
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,7 +47,7 @@ export default function CrudForm({
   } = useForm({
     mode: 'onBlur',
     defaultValues: initialState,
-    resolver: yupResolver(schema),
+    resolver: zodResolver(schema),
   });
 
   const handleClose = () => {
@@ -60,11 +57,31 @@ export default function CrudForm({
   };
 
   const onSubmit = async (value) => {
-    dispatch(onCrud(value));
-    await TimeSleep();
-    handleClose();
-    reset();
+    let updatedData;
+    try {
+      updatedData = type === 'create'
+        ? { ...value, createdAt: new Date(), createdBy: token.id, protId: uuid() }
+        : { ...value, modifiedAt: new Date() };
+  
+      const crudAction = type === 'create' ? crud.create : crud.update;
+      const actionParams = type === 'create' ? { entity, jsonData: updatedData } : { entity, protId: updatedData.protId, jsonData: updatedData };
+  
+      await dispatch(crudAction(actionParams));
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      handleClose();
+      reset();
+    }
   };
+  
+  React.useEffect(() => {
+    if (isSuccess) {
+      dispatch(crud.resetAction({ actionType: 'create' }));
+      dispatch(crud.resetAction({ actionType: 'update' }));
+      dispatch(crud.list({ entity }));
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -106,9 +123,7 @@ export default function CrudForm({
               p: '16px 24px',
             }}
           >
-            {type === 'create'
-              ? `Create a new ${title.slice(0, -1)}`
-              : `Update a ${title.slice(0, -1)}`}
+            {title}
           </DialogTitle>
           <DialogContentText
             variant="body2"
@@ -135,10 +150,7 @@ export default function CrudForm({
               loadingPosition="start"
               disabled={!isDirty || loading}
               startIcon={
-                <Iconify
-                  width={24}
-                  icon={type === 'create' ? 'mdi:plus' : 'eva:edit-outline'}
-                />
+                <Iconify width={24} icon={type === 'create' ? 'mdi:plus' : 'eva:edit-outline'} />
               }
             >
               {type === 'create'

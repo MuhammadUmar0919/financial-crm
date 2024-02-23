@@ -1,4 +1,5 @@
 export const statusColors = (status) => {
+  const lowerStatuse = status?.toLowerCase()
   // Success statuslar
   const successStatus = [
     "paid",
@@ -23,12 +24,12 @@ export const statusColors = (status) => {
   const defaultStatus = ["all", "draft", "no status yet", "refund"];
 
   // Statuslarni tekshirib va ulang
-  if (successStatus.includes(status)) return "success";
-  if (warningStatus.includes(status)) return "warning";
-  if (errorStatus.includes(status)) return "error";
-  if (infoStatus.includes(status)) return "info";
-  if (secondaryStatus.includes(status)) return "secondary";
-  if (defaultStatus.includes(status)) return "default";
+  if (successStatus.includes(lowerStatuse)) return "success";
+  if (warningStatus.includes(lowerStatuse)) return "warning";
+  if (errorStatus.includes(lowerStatuse)) return "error";
+  if (infoStatus.includes(lowerStatuse)) return "info";
+  if (secondaryStatus.includes(lowerStatuse)) return "secondary";
+  if (defaultStatus.includes(lowerStatuse)) return "default";
 
   // Hali aniqlanmagan status uchun default
   return "default";

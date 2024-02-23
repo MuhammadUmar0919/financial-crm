@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Icon Imports
-import Iconify from 'Components/Iconify'
+import Iconify from '@core/components/iconify'
 
 // ** React Imports
 import { Link } from 'react-router-dom'
@@ -41,8 +41,8 @@ const Projects = ({ data }) => {
   return (
     <Grid container spacing={6}>
       {data &&
-        Array.isArray(data) &&
-        data.map((item, index) => {
+        Array.isArray(data.projects) &&
+        data.projects.map((item, index) => {
           return (
             <Grid key={index} item xs={12} md={6} lg={4}>
               <Card>
